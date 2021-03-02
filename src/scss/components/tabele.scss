@@ -1,0 +1,124 @@
+
+
+.tabele {
+    border: solid 1px #dddddd;
+    margin: 2rem 0;
+}
+
+.tabele-top-panel {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 1rem;
+}
+
+.tabele-top-panel .per-page {
+    width: 70px;
+}
+
+.tabele table {
+    margin-bottom: 0;
+}
+
+.tabele-body {
+    padding: 1.5rem;
+}
+
+.tabele-footer {
+
+}
+
+.tabele-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 10px; */
+    background: var(--ng-primary);
+}
+
+.tabele-pagination ul {
+    display: flex;
+    background: var(--ng-white);
+    padding: 8px;
+    border-radius: 50px;
+    margin: 0;
+}
+
+.tabele-pagination ul li {
+    color: var(--ng-primary);
+    list-style: none;
+    line-height: var(--ng-size-45);
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .4s ease;
+}
+
+.tabele-pagination ul li.index {
+    border-radius: 50%;
+    height: var(--ng-size-45);
+    width: var(--ng-size-45);
+    margin: 0 3px;
+}
+
+.tabele-pagination ul li.dots {
+    font-size: 22px;
+    cursor: default;
+}
+
+.tabele-pagination ul li.bton {
+    /* background: var(--ng-primary); */
+    padding: 0 20px;
+}
+
+.tabele-pagination ul li.prev {
+    border-radius: 25px 5px 5px 25px;
+}
+
+.tabele-pagination ul li.next {
+    border-radius: 5px 25px 25px 5px;
+}
+
+.tabele-pagination ul li.active,
+.tabele-pagination ul li.index:hover,
+.tabele-pagination ul li.bton:hover {
+    color: var(--ng-white);
+    background: var(--ng-primary);
+}
+
+.no-select,
+[no-select] {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
+.tabele-control {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* border-radius: .25rem; */
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.tabele-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+}

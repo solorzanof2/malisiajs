@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Malisia</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/malisia.css">
+    <style>
+        [drop-panel] {
+            background: #212121;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+	<div class="main">
+		<div class="container">
+			<div class="row mt-5">
+				<div class="col-12">
+					<h1>Malisia</h1>
+				
+					<p>Anything you put in the <code>copy</code> directory gets copied as-is into the <code>dist</code> directory.</p>
+				
+					<p><button id="click-me" class="btn btn-primary">Click Me</button></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <main class="mt-5 mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <input type="text" name="text" id="input-text" class="form-control" ng-id="inputText">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <small class="text-muted">Aquí debería mostrarse un título.</small>
+                    <h4 ng-id="titleHolder"></h4>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-info" ng-id="buttonTest" @click="mlsEvent">Click me!</button>
+                </div>
+                <div class="col-12 mt-3">
+                    <button class="btn btn-info" ng-group="buttonTest2">Click by dataset</button>
+                    <button class="btn btn-info" ng-group="buttonTest2">Click by dataset</button>
+                    <button id="dispose-me" class="btn btn-info" ng-group="buttonTest2">Click by dataset</button>
+                </div>
+                <div class="col-12 mt-3">
+                    <div class="form-control">
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 1
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 2
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 3
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 4
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 5
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 6
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 7
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 8
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 9
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 10
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <input type="text" id="input-result" class="form-control" readonly ng-model="inputValue">
+                </div>
+                <div class="col-12 mt-3">
+                    <p class="text-muted mb-0">
+                        <small>Data Binded Result is:</small>
+                    </p>
+                    <h4 class="mb-0" ng-bind>{inputValue}</h4>
+                </div>
+                <div class="col-12 mt-3">
+                    <p class="text-muted mb-0">
+                        <small>Input two way Binding Result is:</small>
+                    </p>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="inputValue">
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <p class="text-muted mb-0">
+                        <small>This button will show a single dialog message.</small>
+                    </p>
+                    <button class="btn btn-primary" ng-id="showDialogButton">Dialog</button>
+                </div>
+                <div class="col-12 mt-3">
+                    <p class="text-muted mb-0">
+                        <small>This button will show a snackbar.</small>
+                    </p>
+                    <button class="btn btn-primary" ng-id="showSnackbarButton">Snackbar</button>
+                </div>
+                <div class="col-12 mt-3">
+                    <p class="text-muted mb-0">
+                        <small>This button is binded using it native id</small>
+                    </p>
+                    <button id="button-id" class="btn btn-primary">Click me!</button>
+                </div>
+                <div class="col-12 mt-3">
+                    <form id="frm-post">
+                        <div class="form-group mb-3">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" name="title" id="title" value="Go to the beach">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="body">Body</label>
+                            <textarea id="body" class="form-control" name="body">Soak up the sun and swim in the ocean.</textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="hidden" name="userId" value="1">
+                            <button type="button" ng-id="frmPostSubmitButton" class="btn btn-success btn-sm">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-12 mt-3">
+                    <button class="btn btn-primary btn-sm" ng-id="createGroupButton">Create Group</button>
+                </div>
+                <div class="col-12 mt-3">
+                    <div id="sample-component">
+                        <the-component :name="name" :version="version" :copyrights="copyrights" :show-surprise="showSurprise" :input-value="inputValue"></the-component>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="main mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3">
+                    <div class="card mt-5">
+                        <div class="card-body">
+                            <form ng-wizard="wizardForm" action="http://localhost/malisia/server/index.php" method="POST" id="form-wizard" novalidate>
+                                <div progress-bar></div>
+                                <h1>Register</h1>
+                                <fieldset form-page="init">
+                                    <div class="form-group">
+                                        <label for="firstname-input">First name</label>
+                                        <input type="text" name="firstname" id="firstname-input" class="form-control" required form-control>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastname-input">Last name</label>
+                                        <input type="text" name="lastname" id="lastname-input" class="form-control" required form-control>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset form-page="contact">
+                                    <div class="form-group">
+                                        <label for="email-input">Email</label>
+                                        <input type="email" name="email" id="email-input" class="form-control" required form-control>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone-input">Phone</label>
+                                        <input type="tel" name="phone" id="phone-input" class="form-control" required form-control>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset form-page="birth">
+                                    <div class="form-group">
+                                        <label for="birth-input">Birthday</label>
+                                        <input type="date" name="birthday" id="birth-input" class="form-control" required form-control>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset form-page="user">
+                                    <div class="form-group">
+                                        <label for="username-input">Username</label>
+                                        <input type="text" name="username" id="username-input" class="form-control" required form-control>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password-input">Password</label>
+                                        <input type="password" name="password" id="password-input" class="form-control" required form-control>
+                                    </div>
+                                </fieldset>
+
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary btn-sm" nav-backward>Previous</button>
+                                    <button type="button" class="btn btn-success btn-sm" nav-forward default-label="Next" final-label="Submit">Next</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-sm btn-primary" ng-id="togglePanelButton">Show top panel</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div id="top-panel">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="mb-0">DropPanel</h1>
+                    <p class="mb-0 text-muted"><small>Top position</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<!-- Scripts -->
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+	<script src="js/malisia.js"></script>
+    <script>
+        (() => {
+            const malisia = useMalisia();
+
+            malisia.buttonTest.onclick = function() {
+                malisia.store.dispatch(Actions.updateValue, malisia.inputText.value);
+            }
+
+            malisia.createStore({
+                name: 'store',
+                data: {
+                    inputValue: 'Welcome to MalisiaJS library',
+                },
+                methods: {
+                    updateValue(state, value) {
+                        state.inputValue = value;
+                        return state;
+                    },
+                },
+            });
+            const Actions = malisia.store.getActions();
+
+            malisia.store.subscribe(Actions.updateValue, state => {
+                malisia.titleHolder.textContent = state.inputValue;
+            });
+
+            const testMethod = () => {
+                console.log("Hello World!");
+            }
+
+            malisia.radioTest.on('onchange', function () {
+                console.log(malisia.store.getState().inputValue);
+            });
+
+            malisia.buttonTest2.click(function () {
+                console.log({ control: 'button', message: malisia.store.getState().inputValue });
+            });
+
+            malisia.inputText.oninput = function () {
+                malisia.store.dispatch(Actions.updateValue, this.value);
+            }
+
+            malisia.httpClient.get('https://api.coingecko.com/api/v3/coins/list').then(response => {
+                console.log(response);
+            });
+
+            malisia.showDialogButton.onclick = function() {
+                malisia.dialog.show(malisia.store.getState().inputValue, 'Malisia Lib');
+            }
+
+            malisia.showSnackbarButton.onclick = function() {
+                malisia.snackbar.success(malisia.store.getState().inputValue);
+            }
+
+            const buttonId = new malisia.Button('button-id');
+            buttonId.click(() => {
+                alert(malisia.store.getState().inputValue);
+            });
+
+            const clickMeButton = new malisia.Button('click-me');
+            clickMeButton.click(() => {
+                malisia.buttonTest2.dispose('dispose-me');
+            });
+
+            malisia.frmPostSubmitButton.onclick = function() {
+                const form = new malisia.Form('frm-post');
+                console.log({
+                    serialized: form.serialize(),
+                });
+            }
+
+            malisia.createGroupButton.onclick = function() {
+                malisia.createControlGroup('malisiaGroup');
+                console.log(malisia);
+            }
+
+            malisia.createComponent({
+                selector: 'sample-component',
+                data: {
+                    name: 'MalisiaJS',
+                    version: '1.1.0',
+                    copyrights: 'Félix Solórzano 2021',
+                    showSurprise: false,
+                    inputValue: 'idle',
+                },
+                childs: [
+                    {
+                        selector: 'the-component',
+                        component: {
+                            props: {
+                                name: String,
+                                version: String,
+                                copyrights: String,
+                                showSurprise: Boolean,
+                                inputValue: String,
+                            },
+                            template: /* html */
+                            `
+                                <div class="library-info">
+                                    <h4 class="mb-0">{{name}}</h4>
+                                    <p class="mb-0">copyrights <small class="text-muted">{{copyrights}}</small></p>
+                                    <p class="mb-0">versión: <small class="text-muted">{{version}}</small></p>
+                                    <p class="mb-0" v-if="showSurprise">Elemento Sorpresa - <small class="text-muted">{{inputValue}}</small></p>
+                                    <button class="btn btn-sm btn-primary" @click="dynamicButtonClickEvent">Try to click!</button>
+                                </div>
+                            `,
+                            methods: {
+                                dynamicButtonClickEvent: function(event) {
+                                    malisia.sampleComponent.inputValue = malisia.store.getState().inputValue;
+                                    malisia.sampleComponent.showSurprise = true;
+                                },
+                            },
+                        },
+                    },
+                ],
+            });
+
+            malisia.store.subscribe(Actions.updateValue, state => {
+                malisia.sampleComponent.inputValue = state.inputValue;
+            });
+
+            setTimeout(() => {
+                malisia.sampleComponent.name = 'MalisiaJS (updated)';
+            }, 3000);
+
+            malisia.events.register(['onTimeout', 'onTimeout2', 'on.very-large_event@with~symbols']);
+            malisia.events.onTimeout.subscribe(event => {
+                console.log({
+                    method: 'events.onTimeout',
+                    data: event,
+                    signed: malisia.store.getState().inputValue,
+                });
+            });
+
+            setTimeout(() => {
+                malisia.events.onTimeout.dispatch('The 4secs timeout has been finished.');
+            }, 4000);
+
+            malisia.events.onTimeout2.subscribe(event => {
+                console.log({
+                    method: 'events.onTimeout2',
+                    data: event,
+                    signed: malisia.store.getState().inputValue,
+                });
+            });
+
+            malisia.events.onVeryLargeEventWithSymbols.subscribe(event => {
+                console.log({
+                    method: 'events.onVeryLargeEventWithSymbols',
+                    data: event,
+                    signed: malisia.store.getState().inputValue,
+                });
+            })
+
+            setTimeout(() => {
+                malisia.events.onTimeout2.dispatch('The 5secs timeout has been finished.');
+                malisia.events.onVeryLargeEventWithSymbols.dispatch('At 5secs the very large event was triggered!');
+            }, 5000);
+
+            // const wizard = new malisia.Wizard('form-wizard');
+            // wizard.subscribe(function(response) {
+            //     console.log({
+            //         success: response,
+            //     });
+            // }, function(message) {
+            //     console.log({
+            //         error: message,
+            //     });
+            // });
+            // console.log(wizard);
+
+            malisia.wizardForm.subscribe(function(response) {
+                console.log({
+                    success: response,
+                });
+            }, function(message) {
+                console.log({
+                    error: message,
+                });
+            });
+
+            const topPanel = new malisia.DropPanel({
+                selector: 'top-panel',
+                position: 'top',
+                style: {
+                    width: '100%',
+                    height: '100px',
+                },
+                closeButton: true,
+            });
+
+            malisia.togglePanelButton.onclick = function() {
+                topPanel.show();
+            }
+            
+            console.log(malisia);
+        })();
+    </script>
+</body>
+</html>

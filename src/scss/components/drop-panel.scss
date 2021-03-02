@@ -1,0 +1,40 @@
+
+
+body {
+    overflow-x: hidden;
+}
+
+[drop-panel] {
+    position: fixed;
+    transition: all .5s;
+    background: var(--ng-white);
+}
+
+[drop-panel][active] {
+    transform: unset !important;
+}
+
+[drop-panel-close] {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+[drop-panel-close] button {
+    background: transparent;
+    border: 1px solid #313131;
+    color: #313131;
+    transition: all .5s;
+}
+
+[drop-panel-close] button:hover {
+    background: var(--ng-medium-gray);
+}
+
+[drop-panel-close] button:focus {
+    outline: unset !important;
+}
+
+[drop-panel-close] button:active {
+    background: #414141;
+}
