@@ -44,11 +44,13 @@
                 </div>
                 <div class="col-12">
                     <button class="btn btn-info" ng-id="buttonTest" @click="mlsEvent">Click me!</button>
+                    <button class="btn btn-info" ng-id="buttonBindedEvent">Check for direct binded event!</button>
                 </div>
                 <div class="col-12 mt-3">
                     <button class="btn btn-info" ng-group="buttonTest2">Click by dataset</button>
                     <button class="btn btn-info" ng-group="buttonTest2">Click by dataset</button>
                     <button id="dispose-me" class="btn btn-info" ng-group="buttonTest2">Click by dataset</button>
+                    <button class="btn btn-info" ng-document-event="click::doClickButton">Document Click Button</button>
                 </div>
                 <div class="col-12 mt-3">
                     <div class="form-control">
@@ -259,6 +261,12 @@
                 malisia.titleHolder.textContent = state.inputValue;
             });
 
+            malisia.store.updateValue.subscribe(state => {
+                console.log({
+                    updateValueResult: state.inputValue
+                });
+            });
+
             const testMethod = () => {
                 console.log("Hello World!");
             }
@@ -307,6 +315,10 @@
             malisia.createGroupButton.onclick = function() {
                 malisia.createControlGroup('malisiaGroup');
                 console.log(malisia);
+            }
+
+            malisia.buttonBindedEvent.onclick = function() {
+                malisia.store.updateValue.dispatch('Hello World, from binded Store Event... =D');
             }
 
             malisia.createComponent({
@@ -427,6 +439,10 @@
             malisia.togglePanelButton.onclick = function() {
                 topPanel.show();
             }
+
+            malisia.doclick.subscribe('doClickButton', function() {
+                console.log({ header: 'DoClick Button has been Clicked itself! XD' });
+            });
             
             console.log(malisia);
         })();

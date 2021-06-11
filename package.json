@@ -1,6 +1,6 @@
 {
     "name": "malisiajs",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Simple recipes for building and compiling with the CLI.",
     "main": "./dist/malisia.cjs.min.js",
     "module": "./dist/malisia.es.min.js",

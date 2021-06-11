@@ -9,4 +9,5 @@ dist
 .Trashes
 
 ## files
-debug.log
+*.log
+*.json

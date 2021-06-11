@@ -4,24 +4,8 @@ var Store = (function() {
 
     const NotifyPropertyChange = 'notify.property.change';
     
-    // const properties = {
-    //     core: {},
-    //     actions: {},
-    //     events: [],
-    //     state: {},
-    //     initalState: {},
-    //     mutations: {},
-    // }
-    
     function Store(name, state, mutations, core) {
-        // properties.core = core;
-        // properties.core.addStore(name);
-        
-        // properties.actions = {};
-        // properties.events = [];
-        // properties.state = {};
-        // properties.initialState = state;
-        // properties.mutations = mutations;
+        this.name = name;
         this.core = core;
         this.core.addStore(name);
         this.actions = {};
@@ -43,8 +27,14 @@ var Store = (function() {
             },
         });
     
+        // if (this.mutations && Object.keys(this.mutations).length) {
+        //     Object.keys(this.mutations).map(property => this.actions[property] = property);
+        // }
         if (this.mutations && Object.keys(this.mutations).length) {
-            Object.keys(this.mutations).map(property => this.actions[property] = property);
+            for (const property in this.mutations) {
+                this.actions[property] = property;
+                Store.prototype[property] = new SubjectEvent(this, property);
+            }
         }
         this.bindState();
     }
@@ -69,12 +59,22 @@ var Store = (function() {
 
     Store.prototype.dispatch = function(event, value) {
         if (typeof this.mutations[event] !== 'function') {
-            console.warn(`[Store]: The event ${event} has no registered methods.`);
+            console.warn(`[Store::${this.name}]: The event ${event} has no registered methods.`);
             return;
         }
     
         this.state = this.mutations[event](this.state, value);
         this.commit(event);
+    }
+
+    Store.prototype.dispatchEvent = function(event, value) {
+        if (typeof this.mutations[event] !== 'function') {
+            console.warn(`[Store::${this.name}]: The event ${event} has no registered methods.`);
+            return;
+        }
+
+        this.state = this.mutations[event](this.state, value);
+        return this.state;
     }
 
     Store.prototype.commit = function(event) {
@@ -96,6 +96,26 @@ var Store = (function() {
 
     Store.prototype.getActions = function() {
         return this.actions;
+    }
+    
+    var SubjectEvent = function(store, name) {
+        this.store = store;
+        this.name = name;
+        this.collection = [];
+    }
+    
+    SubjectEvent.prototype.subscribe = function(callback) {
+        if (!this.collection) {
+            this.collection = [];
+        }
+        this.collection.push(callback);
+    }
+    
+    SubjectEvent.prototype.dispatch = function(eventArgs) {
+        const state = this.store.dispatchEvent(this.name, eventArgs);
+        if (this.collection.length) {
+            this.collection.map(callback => callback(state));
+        }
     }
 
     return Store;

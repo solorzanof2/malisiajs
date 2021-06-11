@@ -23,6 +23,10 @@ var Wizard = (function() {
         }));
     }
 
+    const getControlsCollection = function(instance) {
+        return Object.keys(instance.controls);
+    }
+
     const Attributes = {
         formPage: 'form-page',
         progressBar: 'progress-bar',
@@ -43,7 +47,7 @@ var Wizard = (function() {
         }
         this.form = {};
         this.pages = {};
-        this.controlsCollection = [];
+        this.controls = {};
         this.navigation = {};
         this.progressBar = {};
         this.subscriptor = undefined;
@@ -54,11 +58,6 @@ var Wizard = (function() {
 
     Wizard.prototype.initialize = function() {
         if (typeof this.props.selector === 'string') {
-            // let selectorQuery = this.props.selector;
-            // if (!String(this.props.selector).startsWith('#')) {
-            //     selectorQuery = `#${selectorQuery}`;
-            // }
-            // this.form = document.querySelector(selectorQuery);
             this.form = selector(this.props.selector);
         }
 
@@ -66,18 +65,14 @@ var Wizard = (function() {
             this.form = this.props.selector;
         }
 
-        // this.progressBar = this.form.querySelector(createQuery(Attributes.progressBar));
         this.progressBar = selectorFrom(this.form, createQuery(Attributes.progressBar), false);
 
         this.navigation = new Navigation(this, {
-            // backward: this.form.querySelector(createQuery(Attributes.navBackward)),
             backward: selectorFrom(this.form, createQuery(Attributes.navBackward), false),
-            // forward: this.form.querySelector(createQuery(Attributes.navForward)),
             forward: selectorFrom(this.form, createQuery(Attributes.navForward), false),
         });
 
         this.pages = new Pages(this);
-        // const pagesCollection = Array.from(this.form.querySelectorAll(createQuery(Attributes.formPage)));
         const pagesCollection = selectorAllFrom(this.form, createQuery(Attributes.formPage), false);
         let pageIndex = 0;
         for (const page of pagesCollection) {
@@ -93,8 +88,10 @@ var Wizard = (function() {
         this.pages.finishMap();
         this.pages.render();
         
-        // this.controlsCollection = [...this.form.querySelectorAll(createQuery(Attributes.formControl))];
-        this.controlsCollection = selectorAllFrom(this.form, createQuery(Attributes.formControl), false);
+        const controlsCollection = selectorAllFrom(this.form, createQuery(Attributes.formControl), false);
+        for (const control of controlsCollection) {
+            this.controls[control.name] = control;
+        }
         
         this.addEvents();
     }
@@ -122,7 +119,9 @@ var Wizard = (function() {
     }
 
     Wizard.prototype.addEvents = function() {
-        for (const control of this.controlsCollection) {
+        const controlsCollection = getControlsCollection(this);
+        for (const name of controlsCollection) {
+            const control = this.controls[name];
             control.onkeyup = function() {
                 control.classList.remove(styles.hasError);
             };

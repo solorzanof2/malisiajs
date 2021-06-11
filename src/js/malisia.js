@@ -16,6 +16,7 @@ import Vue from "./modules/vue.esm.browser.js";
 import Tabele from "./modules/tabele.js";
 import Wizard from "./modules/wizard.js";
 import DropPanel from "./modules/drop-panel.js";
+import ClickHandler from "./modules/click-handler.js";
 
 
 var Malisia = (function() {
@@ -40,6 +41,7 @@ var Malisia = (function() {
         tabele: 'Tabele',
         wizard: 'Wizard',
         dropPanel: 'DropPanel',
+        doclick: 'doclick',
     };
     
     const composeProperty = function(rawProperty) {
@@ -131,6 +133,7 @@ var Malisia = (function() {
         instance.extends(Extensions.tabele, Tabele);
         instance.extends(Extensions.wizard, Wizard);
         instance.extends(Extensions.dropPanel, DropPanel);
+        instance.extends(Extensions.doclick, (new ClickHandler).start());
     };
 
     const initialize = function(instance) {
