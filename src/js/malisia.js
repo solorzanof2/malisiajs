@@ -7,7 +7,7 @@ import ButtonHandler from "./modules/button-handler.js";
 import Dialog from "./modules/dialog.js";
 import FormHandler from "./modules/form-handler.js";
 import HttpClient from "./modules/http-client.js";
-import { selectorAll } from "./modules/selectors.js";
+import { selector, selectorAll } from "./modules/selectors.js";
 import SnackbarApi from "./modules/snackbar.js";
 import Store from "./modules/store.js";
 import { throwError } from "./modules/throws.js";
@@ -17,18 +17,10 @@ import Tabele from "./modules/tabele.js";
 import Wizard from "./modules/wizard.js";
 import DropPanel from "./modules/drop-panel.js";
 import ClickHandler from "./modules/click-handler.js";
+import debounce from "./modules/debounce";
 
 
 var Malisia = (function() {
-
-    const Prefixes = {
-        main: 'ng',
-        id: 'ng-id',
-        group: 'ng-group',
-        model: 'ng-model',
-        bind: 'ng-bind',
-        wizard: 'ng-wizard',
-    };
 
     const Extensions = {
         httpClient: 'httpClient',
@@ -42,6 +34,14 @@ var Malisia = (function() {
         wizard: 'Wizard',
         dropPanel: 'DropPanel',
         doclick: 'doclick',
+        dollar: '$',
+        dollarAll: '$$',
+    };
+
+    const About = {
+        appName: 'Malisia',
+        appVersion: '1.2.1',
+        debug: false,
     };
     
     const composeProperty = function(rawProperty) {
@@ -64,34 +64,66 @@ var Malisia = (function() {
     const createQuery = (query) => `[${query}]`;
     
     const mappers = {
+        elementsCollection: {},
+        controlGroups: [],
+        modelsCollection: [],
+        bindsCollection: [],
+        formsCollection: {},
+        scan: function() {
+            const elementsCollection = selectorAll(createQuery('mrn'));
+            for (const element of elementsCollection) {
+                const mrn = element.getAttribute('mrn');
+                const mrnParts = String(mrn).split(':').filter(Boolean);
+                if ('docevent' === mrnParts[0]) {
+                    continue;
+                }
+
+                const [key, value] = mrnParts;
+                switch (true) {
+                    case 'id' === key:
+                        this.elementsCollection[value] = element;
+                        break;
+                    case 'group' === key:
+                        if (this.controlGroups.includes(value)) {
+                            continue;
+                        }
+                        this.controlGroups.push(value);
+                        break;
+                    case 'model' === key:
+                        this.modelsCollection.push(element);
+                        break;
+                    case 'bind' === key:
+                        this.bindsCollection.push(element);
+                        break;
+                    case 'wizard' === key:
+                        this.formsCollection[value] = element;
+                        break;
+                }
+            }
+        },
         scanIdentifiers: function(instance, element) {
-            let elementsCollection = [];
-    
-            const query = createQuery(Prefixes.id);
+            let elementsCollection = this.elementsCollection;
+
             if (element) {
                 elementsCollection = selectorAllFrom(element, query);
             }
-            else {
-                elementsCollection = selectorAll(query);
-            }
             
-            for (const element of elementsCollection) {
-                const elementName = element.getAttribute(Prefixes.id);
+            for (const elementName in elementsCollection) {
+                const controlElement = elementsCollection[elementName];
                 if (instance[elementName]) {
                     continue;
                 }
-                element['emit'] = function(event) {
-                    instance.emit(instance, event);
+                controlElement['emit'] = function(event) {
+                    instance.emit(this, event);
                 }
-                instance[elementName] = element;
+                instance[elementName] = controlElement;
             }
         },
         scanGroups: function(instance) {
-            const controlGroups = selectorAll(createQuery(Prefixes.group));
+            const controlGroups = this.controlGroups;
             const groupsCollection = [];
         
-            for (const group of controlGroups) {
-                const groupName = group.getAttribute(Prefixes.group);
+            for (const groupName of controlGroups) {
                 if (groupsCollection.includes(groupName)) {
                     continue;
                 }
@@ -100,23 +132,20 @@ var Malisia = (function() {
             }
         },
         scanModels: function(instance) {
-            const modelsCollection = selectorAll(createQuery(Prefixes.model));
-            if (modelsCollection.length) {
-                instance['models'] = new ControlsModelList(instance, modelsCollection);
+
+            if (this.modelsCollection.length) {
+                instance['models'] = new ControlsModelList(instance, this.modelsCollection);
             }
         },
         scanBinds: function(instance) {
-            const bindsCollection = selectorAll(createQuery(Prefixes.bind));
-            if (bindsCollection.length) {
-                instance['binds'] = new ControlsBindingList(bindsCollection);
+            if (this.bindsCollection.length) {
+                instance['binds'] = new ControlsBindingList(this.bindsCollection);
             }
         },
         scanWizards: function(instance) {
-            const formsCollection = selectorAll(createQuery(Prefixes.wizard));
-            for (const form of formsCollection) {
-                const formName = form.getAttribute(Prefixes.wizard);
+            for (const formName in this.formsCollection) {
                 instance[formName] = new Wizard({
-                    selector: form
+                    selector: this.formsCollection[formName]
                 });
             }
         },
@@ -134,12 +163,20 @@ var Malisia = (function() {
         instance.extends(Extensions.wizard, Wizard);
         instance.extends(Extensions.dropPanel, DropPanel);
         instance.extends(Extensions.doclick, (new ClickHandler).start());
+        instance.extends(Extensions.dollar, selector);
+        instance.extends(Extensions.dollarAll, selectorAll);
+        instance.extends('functions', {
+            debounce
+        });
     };
 
     const initialize = function(instance) {
         // at first bind events object, since it is necessary
         instance.extends('events', new EventHandler());
 
+        // scan for all malisia resources name;
+        mappers.scan();
+        
         // scan for [ng-id] elements
         mappers.scanIdentifiers(instance);
 
@@ -170,10 +207,8 @@ var Malisia = (function() {
         initialize(this);
     }
     
-    Malisia.prototype.defaultOptions = {
-        appName: 'Malisia',
-        appVersion: '1.1.0',
-        debug: false,
+    Malisia.prototype.aboutMalisia = function() {
+        return About;
     }
     
     Malisia.prototype.getStoresCollection = function() {
@@ -196,8 +231,12 @@ var Malisia = (function() {
         Malisia.prototype[name] = reference;
     }
     
-    Malisia.prototype.emit = function(component, event) {
+    Malisia.prototype.emit = function(component, event, data) {
         if (!event || !component) {
+            return;
+        }
+        if (data) {
+            component.dispatchEvent(new CustomEvent(event, { bubbles: true, cancelable: true, detail: data }));
             return;
         }
         component.dispatchEvent(new Event(event, { bubbles: true, cancelable: true }));

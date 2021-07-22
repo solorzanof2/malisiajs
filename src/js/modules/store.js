@@ -1,9 +1,6 @@
 
 
 var Store = (function() {
-
-    const NotifyPropertyChange = 'notify.property.change';
-    
     function Store(name, state, mutations, core) {
         this.name = name;
         this.core = core;
@@ -13,23 +10,23 @@ var Store = (function() {
         this.state = {};
         this.initialState = state;
         this.mutations = mutations;
+        this.notifyPropertyChange = `${this.name}NotifyPropertyChange`;
     
         this.initialize();
     }
 
     Store.prototype.initialize = function() {
+        this.core.events.register(this.notifyPropertyChange);
+        
         this.state = new Proxy(this.initialState, {
             set: (target, property, value) => {
                 target[property] = value;
                 this.render(property, value);
-                this.core.events.dispatch(NotifyPropertyChange, { property, value });
+                this.core.events[this.notifyPropertyChange].dispatch({ property, value });
                 return true;
             },
         });
     
-        // if (this.mutations && Object.keys(this.mutations).length) {
-        //     Object.keys(this.mutations).map(property => this.actions[property] = property);
-        // }
         if (this.mutations && Object.keys(this.mutations).length) {
             for (const property in this.mutations) {
                 this.actions[property] = property;
@@ -58,13 +55,8 @@ var Store = (function() {
     }
 
     Store.prototype.dispatch = function(event, value) {
-        if (typeof this.mutations[event] !== 'function') {
-            console.warn(`[Store::${this.name}]: The event ${event} has no registered methods.`);
-            return;
-        }
-    
-        this.state = this.mutations[event](this.state, value);
-        this.commit(event);
+        this.dispatchEvent(event, value);
+        this.commit(event, value);
     }
 
     Store.prototype.dispatchEvent = function(event, value) {
@@ -73,13 +65,16 @@ var Store = (function() {
             return;
         }
 
-        this.state = this.mutations[event](this.state, value);
+        const state = this.mutations[event](this.state, value);
+        if (state) {
+            this.state = state;
+        }
         return this.state;
     }
 
     Store.prototype.commit = function(event) {
         if (this.events[event]) {
-            this.events[event].map(callback => callback(this.state));
+            this.events[event].map(callback => callback(this.state, value));
         }
     }
 
@@ -92,6 +87,10 @@ var Store = (function() {
 
     Store.prototype.getState = function() {
         return this.state;
+    }
+
+    Store.prototype.getStateValue = function(property) {
+        return this.state[property] || null;
     }
 
     Store.prototype.getActions = function() {
@@ -114,7 +113,7 @@ var Store = (function() {
     SubjectEvent.prototype.dispatch = function(eventArgs) {
         const state = this.store.dispatchEvent(this.name, eventArgs);
         if (this.collection.length) {
-            this.collection.map(callback => callback(state));
+            this.collection.map(callback => callback(state, eventArgs));
         }
     }
 

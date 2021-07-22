@@ -19,3 +19,5 @@ function debounce(func, milliseconds, inmediate) {
         }
     };
 };
+
+export default debounce;

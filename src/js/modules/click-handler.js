@@ -3,7 +3,7 @@
 var ClickHandler = (function() {
 
     const clickEvent = 'click';
-    const documentEvent = 'ng-document-event';
+    const documentEvent = 'mrn';
 
     const collection = [];
     
@@ -22,9 +22,9 @@ var ClickHandler = (function() {
 
             if (!target.hasAttribute(documentEvent)) return;
 
-            const [eventButton, button] = String(target.getAttribute(documentEvent)).split('::');
+            const [property, eventButton, button] = String(target.getAttribute(documentEvent)).split(':').filter(Boolean);
 
-            if (eventButton !== clickEvent) return;
+            if (eventButton !== clickEvent || property !== 'docevent') return;
             
             if (button && collection[button]) {
                 collection[button].map(callback => callback(event));

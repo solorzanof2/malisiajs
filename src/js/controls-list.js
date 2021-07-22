@@ -2,13 +2,11 @@ import { selector, selectorAll } from './modules/selectors.js';
 
 
 var ControlsList = (function() {
-
-    const PrefixGroup = 'ng-group';
     
     function ControlsList(group, core) {
         this.core = core;
         this.groupName = group;
-        this.collection = selectorAll(`[${PrefixGroup}="${group}"]`);
+        this.collection = selectorAll(`[mrn*="group::${group}"]`);
         this.registeredEventsCollection = {};
     }
     

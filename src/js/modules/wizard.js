@@ -58,7 +58,7 @@ var Wizard = (function() {
 
     Wizard.prototype.initialize = function() {
         if (typeof this.props.selector === 'string') {
-            this.form = selector(this.props.selector);
+            this.form = selector(`[mrn*="wizard::${this.props.selector}"]`);
         }
 
         if (this.props.selector instanceof HTMLFormElement) {

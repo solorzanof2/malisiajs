@@ -10,7 +10,7 @@ var ControlsModelList = (function() {
         return (control.type === 'radio');
     }
 
-    const PrefixModel = 'ng-model';
+    const PrefixModel = 'mrn';
     
     function ControlsModelList(core, collection = []) {
         this.rawCollection = collection;
@@ -25,7 +25,7 @@ var ControlsModelList = (function() {
     
     ControlsModelList.prototype.bind = function(collection) {
         for (const control of collection) {
-            const model = control.getAttribute(PrefixModel);
+            const [key, model] = control.getAttribute(PrefixModel).split(':').filter(Boolean);
             if (!model) {
                 continue;
             }
@@ -37,7 +37,7 @@ var ControlsModelList = (function() {
             const thiz = this;
             if (isCheckbox(control) || isRadio(control)) {
                 control.onchange = function() {
-                    for (const store of thiz.core.storesCollection) {
+                    for (const store of thiz.core.getStoresCollection()) {
                         if (thiz.core.hasOwnProperty(store)) {
                             thiz.core[store] = (this.value === value);
                         }
@@ -46,7 +46,7 @@ var ControlsModelList = (function() {
             }
             else {
                 control.oninput = function () {
-                    for (const store of thiz.core.storesCollection) {
+                    for (const store of thiz.core.getStoresCollection()) {
                         if (thiz.core.hasOwnProperty(store)) {
                             thiz.core[store].getState()[model] = this.value;
                         }

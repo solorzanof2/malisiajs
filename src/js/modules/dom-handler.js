@@ -11,11 +11,11 @@ var DomHandler = (function() {
     }
     
     DomHandler.prototype.createDiv = function() {
-        return createElement('div');
+        return this.createElement('div');
     }
     
     DomHandler.prototype.toNode = function(template) {
-        const div = createDiv();
+        const div = this.createDiv();
         div.innerHTML = template;
         return div.firstElementChild;
     }

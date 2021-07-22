@@ -57,25 +57,22 @@ var EventHandler = (function() {
         }
     }
     
-    const properties = {
-        collection: [],
-    };
-    
     var SubjectEvent = function(name, propertyName) {
         this.name = name;
         this.propertyName = propertyName;
+        this.collection = [];
     }
     
     SubjectEvent.prototype.subscribe = function(callback) {
-        if (!properties.collection[this.propertyName]) {
-            properties.collection[this.propertyName] = [];
+        if (!this.collection[this.propertyName]) {
+            this.collection[this.propertyName] = [];
         }
-        properties.collection[this.propertyName].push(callback);
+        this.collection[this.propertyName].push(callback);
     }
     
     SubjectEvent.prototype.dispatch = function(eventArgs) {
-        if (properties.collection[this.propertyName].length) {
-            properties.collection[this.propertyName].map(callback => callback(eventArgs));
+        if (this.collection[this.propertyName] && this.collection[this.propertyName].length) {
+            this.collection[this.propertyName].map(callback => callback(eventArgs));
         }
     }
 

@@ -35,85 +35,85 @@
             <div class="row">
                 <div class="col-12">
                     <div class="form-group">
-                        <input type="text" name="text" id="input-text" class="form-control" ng-id="inputText">
+                        <input type="text" name="text" id="input-text" class="form-control" mrn="id::inputText">
                     </div>
                 </div>
                 <div class="col-12">
                     <small class="text-muted">Aquí debería mostrarse un título.</small>
-                    <h4 ng-id="titleHolder"></h4>
+                    <h4 mrn="id::titleHolder"></h4>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-info" ng-id="buttonTest" @click="mlsEvent">Click me!</button>
-                    <button class="btn btn-info" ng-id="buttonBindedEvent">Check for direct binded event!</button>
+                    <button class="btn btn-info" mrn="id::buttonTest" @click="mlsEvent">Click me!</button>
+                    <button class="btn btn-info" mrn="id::buttonBindedEvent">Check for direct binded event!</button>
                 </div>
                 <div class="col-12 mt-3">
-                    <button class="btn btn-info" ng-group="buttonTest2">Click by dataset</button>
-                    <button class="btn btn-info" ng-group="buttonTest2">Click by dataset</button>
-                    <button id="dispose-me" class="btn btn-info" ng-group="buttonTest2">Click by dataset</button>
-                    <button class="btn btn-info" ng-document-event="click::doClickButton">Document Click Button</button>
+                    <button class="btn btn-info" mrn="group::buttonTest2">Click by dataset</button>
+                    <button class="btn btn-info" mrn="group::buttonTest2">Click by dataset</button>
+                    <button id="dispose-me" class="btn btn-info" mrn="group::buttonTest2">Click by dataset</button>
+                    <button class="btn btn-info" mrn="docevent:click::doClickButton">Document Click Button</button>
                 </div>
                 <div class="col-12 mt-3">
                     <div class="form-control">
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 1
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 1
                         </label>
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 2
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 2
                         </label>
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 3
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 3
                         </label>
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 4
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 4
                         </label>
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 5
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 5
                         </label>
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 6
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 6
                         </label>
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 7
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 7
                         </label>
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 8
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 8
                         </label>
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 9
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 9
                         </label>
                         <label>
-                            <input type="radio" name="radio-test" ng-group="radioTest"> radio 10
+                            <input type="radio" name="radio-test" mrn="group::radioTest"> radio 10
                         </label>
                     </div>
                 </div>
                 <div class="col-12 mt-3">
-                    <input type="text" id="input-result" class="form-control" readonly ng-model="inputValue">
+                    <input type="text" id="input-result" class="form-control" readonly mrn="model::inputValue">
                 </div>
                 <div class="col-12 mt-3">
                     <p class="text-muted mb-0">
                         <small>Data Binded Result is:</small>
                     </p>
-                    <h4 class="mb-0" ng-bind>{inputValue}</h4>
+                    <h4 class="mb-0" mrn="bind::value">{inputValue}</h4>
                 </div>
                 <div class="col-12 mt-3">
                     <p class="text-muted mb-0">
                         <small>Input two way Binding Result is:</small>
                     </p>
                     <div class="form-group">
-                        <input type="text" class="form-control" ng-model="inputValue">
+                        <input type="text" class="form-control" mrn="model::inputValue">
                     </div>
                 </div>
                 <div class="col-12 mt-3">
                     <p class="text-muted mb-0">
                         <small>This button will show a single dialog message.</small>
                     </p>
-                    <button class="btn btn-primary" ng-id="showDialogButton">Dialog</button>
+                    <button class="btn btn-primary" mrn="id::showDialogButton">Dialog</button>
                 </div>
                 <div class="col-12 mt-3">
                     <p class="text-muted mb-0">
                         <small>This button will show a snackbar.</small>
                     </p>
-                    <button class="btn btn-primary" ng-id="showSnackbarButton">Snackbar</button>
+                    <button class="btn btn-primary" mrn="id::showSnackbarButton">Snackbar</button>
                 </div>
                 <div class="col-12 mt-3">
                     <p class="text-muted mb-0">
@@ -133,12 +133,12 @@
                         </div>
                         <div class="form-group mb-3">
                             <input type="hidden" name="userId" value="1">
-                            <button type="button" ng-id="frmPostSubmitButton" class="btn btn-success btn-sm">Submit</button>
+                            <button type="button" mrn="id::frmPostSubmitButton" class="btn btn-success btn-sm">Submit</button>
                         </div>
                     </form>
                 </div>
                 <div class="col-12 mt-3">
-                    <button class="btn btn-primary btn-sm" ng-id="createGroupButton">Create Group</button>
+                    <button class="btn btn-primary btn-sm" mrn="id::createGroupButton">Create Group</button>
                 </div>
                 <div class="col-12 mt-3">
                     <div id="sample-component">
@@ -155,7 +155,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3">
                     <div class="card mt-5">
                         <div class="card-body">
-                            <form ng-wizard="wizardForm" action="http://localhost/malisia/server/index.php" method="POST" id="form-wizard" novalidate>
+                            <form mrn="wizard::wizardForm" action="http://localhost/malisia/server/index.php" method="POST" id="form-wizard" novalidate>
                                 <div progress-bar></div>
                                 <h1>Register</h1>
                                 <fieldset form-page="init">
@@ -214,7 +214,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-sm btn-primary" ng-id="togglePanelButton">Show top panel</button>
+                    <button class="btn btn-sm btn-primary" mrn="id::togglePanelButton">Show top panel</button>
                 </div>
             </div>
         </div>
@@ -443,6 +443,9 @@
             malisia.doclick.subscribe('doClickButton', function() {
                 console.log({ header: 'DoClick Button has been Clicked itself! XD' });
             });
+            
+            // select a single element;
+            console.log(malisia.$('dispose-me'));
             
             console.log(malisia);
         })();
